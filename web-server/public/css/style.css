@@ -41,3 +41,25 @@ header a{
     width: 250px;
 }
 
+img.weather_icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+input {
+    border: 1px solid #cccccc;
+    padding: 8px;
+}
+
+button {
+    cursor: pointer;
+    border: 1px solid #888888;
+    background-color: #888888;
+    color: white;
+    padding: 8px;
+}
+
+#clickable_link {
+    text-decoration: none;
+}
