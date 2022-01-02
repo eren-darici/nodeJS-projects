@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
 // Create Express Application
 const app = express();
@@ -25,7 +27,6 @@ hbs.registerPartials(partialsDirectoryPath);
 app.get('', (req, res) => {
     res.render('index', {
         title: 'Weather',
-        name: 'Eren'
     })
 })
 
@@ -42,18 +43,43 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res) => {
     res.render('help', {
         title: 'Help',
-        message: 'This is a help message'
+        message: 'You can navigate to Index page and search your location with address or postal code!'
     })
 })
 
 
 // ExpressJS
 app.get('/weather', (req, res) => {
-    res.send({
-        forecast: 'It is snowing',
-        location: 'Philadelphia'
-    });
+    if (!req.query.address) {
+        return res.send({
+            error: 'You must provide an address!'
+        })
+    }
+
+    geocode(req.query.address, (error, {latitude, longitude, location} = {}) => {
+        if (error) {
+            return res.send({error: error})
+        }
+
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return res.send({error: error})
+            }
+
+            res.send({
+                forecast: {
+                    temperature: forecastData.temperature,
+                    description: forecastData.weather_descriptions[0],
+                    pcip: forecastData.precip,
+                },
+                location: location,
+                weather_icon: forecastData.weather_icons[0],
+            })
+        })
+    })
+
 })
+
 
 // 404 Page
 app.get('*', (req, res) => {
