@@ -17,9 +17,10 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName);
 
-    db.collection('tasks').updateOne({ _id: new ObjectID("61d1d8bdfb6dc6a545b0022b") }, { $set: { completed: true } }).then((result) => {
+    db.collection('tasks').deleteOne({task: 'Clean the house'}).then((result) =>{
         console.log(result);
     }).catch((error) => {
         console.log(error);
-    });
+    })
+
 });
