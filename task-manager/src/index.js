@@ -18,12 +18,7 @@ app.use(express.json());
 // Rest API Routes
 // Add a new user
 app.post('/api/users', async (req, res) => {
-    const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        age: req.body.age
-    })
+    const user = new User(req.body);
 
     try {
         await user.save();
@@ -61,12 +56,33 @@ app.get('/api/users/:id', async (req, res) => {
 
 })
 
+//  Update user by id
+app.patch('/api/users/:id', async (req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['name', 'email', 'password', 'age'];
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+
+    try {
+        if (!isValidOperation) {
+            return res.status(400).send({ error: 'Invalid updates!' })
+        }
+
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+        if (!user) {
+            return res.status(404).send()
+        }
+
+        res.send(user);
+
+    } catch (error) {
+        return res.status(400).send(error)
+    }
+})
+
 // Add a new task
 app.post('/api/tasks', async (req, res) => {
-    const task = new Task({
-        description: req.body.description,
-        completed: req.body.completed
-    })
+    const task = new Task(req.body);
 
     try {
         await task.save();
@@ -103,6 +119,30 @@ app.get('/api/tasks/:id', async (req, res) => {
         res.send(task)
     } catch (error) {
         return res.status(500).send(error)
+    }
+})
+
+// Update task by id
+app.patch('/api/tasks/:id', async (req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['description', 'completed'];
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+
+    try {
+        if (!isValidOperation) {
+            return res.status(400).send({ error: 'Invalid updates!' })
+        }
+
+        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+        if (!task) {
+            return res.status(404).send()
+        }
+
+        res.send(task);
+
+    } catch (error) {
+        return res.status(400).send(error)
     }
 })
 
