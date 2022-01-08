@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Rest API Routes
 // Add a new user
-app.post('/api/users', (req, res) => {
+app.post('/api/users', async (req, res) => {
     const user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -25,75 +25,85 @@ app.post('/api/users', (req, res) => {
         age: req.body.age
     })
 
-    user.save().then(() => {
+    try {
+        await user.save();
         res.status(201).send(user);
-    }).catch((error) => {
-        res.status(400).send(error);
-    })
+    } catch (error) {
+        return res.status(400).send(error)
+    }
 })
 
 // Get all users
-app.get('/api/users', (req, res) => {
-    User.find({}).then((users) => {
-        res.status(200).send(users);
-    }).catch((error) => {
-        res.status(500).send(error);
-    })
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.send(users);
+    } catch (error) {
+        return res.status(500).send(error)
+    }
 })
 
 // Get user by id
-app.get('/api/users/:id', (req, res) => {
+app.get('/api/users/:id', async (req, res) => {
     const _id = req.params.id
 
-    User.findById(_id).then((user) => {
+    try {
+        const user = await User.findById(_id);
+
         if (!user) {
-            return res.status(404).send("User not found!");
+            return res.status(404).send()
         }
 
-        res.status(200).send(user);
+        res.send(user)
+    } catch (error) {
+        return res.status(500).send(error)
+    }
 
-    }).catch((error) => {
-        res.status(500).send(error);
-    })
 })
 
 // Add a new task
-app.post('/api/tasks', (req, res) => {
+app.post('/api/tasks', async (req, res) => {
     const task = new Task({
         description: req.body.description,
         completed: req.body.completed
     })
 
-    task.save().then(() => {
-        res.status(201).send(task);
-    }).catch((error) => {
-        res.status(400).send(error);
-    })
+    try {
+        await task.save();
+        res.send(task);
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+
+
 })
 
 // Get all tasks
-app.get('/api/tasks', (req, res) => {
-    Task.find({}).then((tasks) => {
-        res.status(200).send(tasks);
-    }).catch((error) => {
-        res.status(500).send(error);
-    })
+app.get('/api/tasks', async (req, res) => {
+
+    try {
+        const tasks = await Task.find({});
+        res.send(tasks);
+    } catch (error) {
+        return res.status(500).send(error)
+    }
 })
 
 // Get task by id
-app.get('/api/tasks/:id', (req, res) => {
+app.get('/api/tasks/:id', async (req, res) => {
     const _id = req.params.id
 
-    Task.findById(_id).then((task) => {
+    try {
+        const task = await Task.findById(_id);
+
         if (!task) {
-            return res.status(404).send("Task not found!");
+            return res.status(404).send()
         }
 
-        res.status(200).send(task);
-
-    }).catch((error) => {
-        res.status(500).send(error);
-    })
+        res.send(task)
+    } catch (error) {
+        return res.status(500).send(error)
+    }
 })
 
 
