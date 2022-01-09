@@ -8,9 +8,6 @@ const taskRouter = require('./routers/tasks');
 //  Mongoose connection
 require('./db/mongoose');
 
-// Models
-const Task = require('./models/task');
-
 // Express Settings
 const app = express();
 const port = process.env.PORT || 3000;
