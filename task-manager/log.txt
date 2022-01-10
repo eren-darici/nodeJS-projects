@@ -201,3 +201,12 @@ POST, /api/tasks, ::1, 10.01.2022 16:42:06
 POST, /api/tasks, ::1, 10.01.2022 16:42:07
 POST, /api/tasks, ::1, 10.01.2022 16:42:09
 DELETE, /api/users/me, ::1, 10.01.2022 16:42:42
+POST, /api/users/login, ::1, 10.01.2022 19:07:36
+POST, /api/users/, ::1, 10.01.2022 19:07:43
+POST, /api/users/login, ::1, 10.01.2022 19:07:45
+POST, /api/tasks, ::1, 10.01.2022 19:07:53
+POST, /api/tasks, ::1, 10.01.2022 19:07:56
+POST, /api/tasks, ::1, 10.01.2022 19:07:58
+POST, /api/tasks, ::1, 10.01.2022 19:08:02
+GET, /api/tasks, ::1, 10.01.2022 19:08:05
+DELETE, /api/users/me, ::1, 10.01.2022 19:08:12
