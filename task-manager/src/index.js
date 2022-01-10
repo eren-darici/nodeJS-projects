@@ -5,7 +5,6 @@ const express = require('express');
 const logger = require('./middleware/logger');
 const maintenanceMode = require('./middleware/maintenanceMode');
 
-
 // DotEnv
 const dotenv = require('dotenv');
 dotenv.config();
