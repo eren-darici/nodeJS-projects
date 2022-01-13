@@ -50,13 +50,10 @@ const userSchema = new mongoose.Schema({
         token: {
             type: String,
             required: true
-        },
-        createdAt: {
-            type: Date,
-            required: true,
-            default: Date.now
         }
     }]
+}, {
+    timestamps: true
 })
 
 // Virtual attribute
