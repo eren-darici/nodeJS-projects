@@ -42,10 +42,6 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    date_signed: {
-        type: Date,
-        default: Date.now
-    },
     tokens: [{
         token: {
             type: String,
